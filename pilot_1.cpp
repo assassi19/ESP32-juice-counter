@@ -15,6 +15,7 @@ const int Papaya_PIN = 33;
 const int WaterMelon_PIN = 25;
 const int Grapes_PIN = 26;
 const int Banana_PIN = 27;
+const int Kharbooza_PIN = 14;
 
 // Counters
 int Mixed_Fruit_count = 0;
@@ -26,6 +27,7 @@ int Papaya_count = 0;
 int WaterMelon_count = 0;
 int Grapes_count = 0;
 int Banana_count = 0;
+int Kharbooza_count = 0;
 
 // Profit/Loss tracking
 float Mixed_Fruit_investment = 0;
@@ -37,6 +39,8 @@ float Papaya_investment = 0;
 float WaterMelon_investment = 0;
 float Grapes_investment = 0;
 float Banana_investment = 0;
+float Kharbooza_investment = 0;
+float Others = 0;
 
 bool Mixed_Fruit_lastState = LOW;
 bool Pinapple_lastState = LOW;
@@ -47,6 +51,7 @@ bool Papaya_lastState = LOW;
 bool WaterMelon_lastState = LOW;
 bool Grapes_lastState = LOW;
 bool Banana_lastState = LOW;
+bool Kharbooza_lastState = LOW;
 
 void setup() {
   Serial.begin(115200);
@@ -61,6 +66,7 @@ void setup() {
   pinMode(WaterMelon_PIN, INPUT_PULLUP);
   pinMode(Grapes_PIN, INPUT_PULLUP);
   pinMode(Banana_PIN, INPUT_PULLUP);
+  pinMode(Kharbooza_PIN, INPUT_PULLUP);
 
   // Connect to Wi-Fi
   WiFi.softAP(ssid, password);
@@ -85,6 +91,7 @@ void loop() {
   checkButton(WaterMelon_PIN, WaterMelon_lastState, WaterMelon_count);
   checkButton(Grapes_PIN, Grapes_lastState, Grapes_count);
   checkButton(Banana_PIN, Banana_lastState, Banana_count);
+  checkButton(Kharbooza_PIN, Kharbooza_lastState, Kharbooza_count);
   
   // Handle web server
   server.handleClient();
@@ -116,13 +123,14 @@ void handleRoot() {
     html += "<tr><td>WaterMelon</td><td>" + String(WaterMelon_count) + "</td><td>" + String(WaterMelon_count * 10) + "</td></tr>";
     html += "<tr><td>Grapes</td><td>" + String(Grapes_count) + "</td><td>" + String(Grapes_count * 10) + "</td></tr>";
     html += "<tr><td>Banana</td><td>" + String(Banana_count) + "</td><td>" + String(Banana_count * 10) + "</td></tr>";
+    html += "<tr><td>Kharbooza</td><td>" + String(Kharbooza_count) + "</td><td>" + String(Kharbooza_count * 10) + "</td></tr>";
 
-    int totalDrinks = Mixed_Fruit_count + Pinapple_count + Mosambi_count + Mango_count + Chikoo_count + Papaya_count + WaterMelon_count + Grapes_count + Banana_count;
+    int totalDrinks = Mixed_Fruit_count + Kharbooza_count + Pinapple_count + Mosambi_count + Mango_count + Chikoo_count + Papaya_count + WaterMelon_count + Grapes_count + Banana_count;
     int totalCost = totalDrinks * 10;
     html += "<tr><td>Total Drinks</td><td>" + String(totalDrinks) + "</td><td>" + String(totalCost) + "</td></tr>";
   
     // Profit/Loss for each item and total
-    html += "</table><h2>Profit/Loss</h2><table><tr><th>Juice</th><th>Investment (₹)</th><th>Profit/Loss (₹)</th></tr>";
+    html += "</table><h2>Profit/Loss</h2><table><tr><th>Juice</th><th>Investment (Rs)</th><th>Profit/Loss (Rs)</th></tr>";
     html += "<tr><td>Mixed Fruit</td><td>" + String(Mixed_Fruit_investment) + "</td><td>" + String((Mixed_Fruit_count * 10) - Mixed_Fruit_investment) + "</td></tr>";
     html += "<tr><td>Pinapple</td><td>" + String(Pinapple_investment) + "</td><td>" + String((Pinapple_count * 10) - Pinapple_investment) + "</td></tr>";
     html += "<tr><td>Mosambi</td><td>" + String(Mosambi_investment) + "</td><td>" + String((Mosambi_count * 10) - Mosambi_investment) + "</td></tr>";
@@ -132,19 +140,20 @@ void handleRoot() {
     html += "<tr><td>WaterMelon</td><td>" + String(WaterMelon_investment) + "</td><td>" + String((WaterMelon_count * 10) - WaterMelon_investment) + "</td></tr>";
     html += "<tr><td>Grapes</td><td>" + String(Grapes_investment) + "</td><td>" + String((Grapes_count * 10) - Grapes_investment) + "</td></tr>";
     html += "<tr><td>Banana</td><td>" + String(Banana_investment) + "</td><td>" + String((Banana_count * 10) - Banana_investment) + "</td></tr>";
+    html += "<tr><td>Kharbooza</td><td>" + String(Kharbooza_investment) + "</td><td>" + String((Kharbooza_count * 10) - Kharbooza_investment) + "</td></tr>";
 
-    float totalInvestment = Mixed_Fruit_investment + Pinapple_investment + Mosambi_investment + Mango_investment + Chikoo_investment + Papaya_investment + WaterMelon_investment + Grapes_investment + Banana_investment;
+    float totalInvestment = Others + Mixed_Fruit_investment +Kharbooza_investment + Pinapple_investment + Mosambi_investment + Mango_investment + Chikoo_investment + Papaya_investment + WaterMelon_investment + Grapes_investment + Banana_investment;
     float totalProfitLoss = (totalDrinks * 10) - totalInvestment;
     html += "<tr><td>Total</td><td>" + String(totalInvestment) + "</td><td>" + String(totalProfitLoss) + "</td></tr>";
     
     html += "</table><form action=\"/reset\" method=\"GET\"><button type=\"submit\">Reset</button></form>";
-    html += "<form action=\"/investment\" method=\"GET\"><h2>Investment Input</h2><label for=\"item\">Item:</label><select id=\"item\" name=\"item\"><option value=\"Mixed_Fruit\">Mixed Fruit</option><option value=\"Pinapple\">Pinapple</option><option value=\"Mosambi\">Mosambi</option><option value=\"Mango\">Mango</option><option value=\"Chikoo\">Chikoo</option><option value=\"Papaya\">Papaya</option><option value=\"WaterMelon\">WaterMelon</option><option value=\"Grapes\">Grapes</option><option value=\"Banana\">Banana</option></select><label for=\"price\">Price/kg:</label><input type=\"number\" id=\"price\" name=\"price\" required><label for=\"quantity\">Quantity (kgs):</label><input type=\"number\" id=\"quantity\" name=\"quantity\" required><button type=\"submit\">Submit</button></form>";
-  
+    html += "<form action=\"/investment\" method=\"GET\"><h2>Investment Input</h2><label for=\"item\">Item:</label><select id=\"item\" name=\"item\"><option value=\"Others\">Others</option><option value=\"Mixed_Fruit\">Mixed Fruit</option><option value=\"Pinapple\">Pinapple</option><option value=\"Kharbooza\">Kharbooza</option><option value=\"Mosambi\">Mosambi</option><option value=\"Mango\">Mango</option><option value=\"Chikoo\">Chikoo</option><option value=\"Papaya\">Papaya</option><option value=\"WaterMelon\">WaterMelon</option><option value=\"Grapes\">Grapes</option><option value=\"Banana\">Banana</option></select><label for=\"price\">Price/kg:</label><input type=\"number\" id=\"price\" name=\"price\" required><label for=\"quantity\">Quantity (kgs):</label><input type=\"number\" id=\"quantity\" name=\"quantity\" required><button type=\"submit\">Submit</button></form>";
+  //add the others option here
     html += "<h2>Sales Graph</h2><canvas id=\"salesChart\"></canvas>";
     html += "<script>let ctx=document.getElementById('salesChart').getContext('2d');";
-    html += "let chart=new Chart(ctx,{type:'line',data:{labels:[0,1,2,3,4,5,6,7,8,9],datasets:[{label:'Total Sales (₹100)',";
+    html += "let chart=new Chart(ctx,{type:'line',data:{labels:[0,1,2,3,4,5,6,7,8,9],datasets:[{label:'Total Sales (Rs 100)',";
     html += "data:[" + String(totalCost/100) + "],borderColor:'rgba(75, 192, 192, 1)',fill:false}]},";
-    html += "options:{scales:{x:{title:{display:true,text:'Time (Hours)'}},y:{title:{display:true,text:'Money (₹100)'}}}}});</script>";
+    html += "options:{scales:{x:{title:{display:true,text:'Time (Hours)'}},y:{title:{display:true,text:'Money (Rs 100)'}}}}});</script>";
     html += "</body></html>";
     
     server.send(200, "text/html", html);
@@ -161,8 +170,10 @@ void handleReset() {
   WaterMelon_count = 0;
   Grapes_count = 0;
   Banana_count = 0;
+  Kharbooza_count = 0;
 
   Mixed_Fruit_investment = 0;
+  Kharbooza_investment = 0;
   Pinapple_investment = 0;
   Mosambi_investment = 0;
   Mango_investment = 0;
@@ -171,7 +182,7 @@ void handleReset() {
   WaterMelon_investment = 0;
   Grapes_investment = 0;
   Banana_investment = 0;
-
+  Others = 0;
   server.sendHeader("Location", "/", true);
   server.send(302, "text/plain", "");
 }
@@ -191,6 +202,8 @@ void handleInvestment() {
   else if (item == "WaterMelon") WaterMelon_investment += investment;
   else if (item == "Grapes") Grapes_investment += investment;
   else if (item == "Banana") Banana_investment += investment;
+  else if (item == "Kharbooza") Kharbooza_investment += investment;
+  else if (item == "Others") Others += investment;
 
   server.sendHeader("Location", "/", true);
   server.send(302, "text/plain", "");
