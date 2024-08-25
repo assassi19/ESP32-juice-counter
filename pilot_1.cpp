@@ -247,31 +247,31 @@ void handleRoot() {
     html += "<form action=\"/investment\" method=\"GET\"><h2>Investment Input</h2><label for=\"item\">Item:</label><select id=\"item\" name=\"item\"><option value=\"Others\">Others</option><option value=\"Pinapple\">Pinapple</option><option value=\"Kharbooza\">Kharbooza</option><option value=\"Mosambi\">Mosambi</option><option value=\"Mango\">Mango</option><option value=\"Chikoo\">Chikoo</option><option value=\"Papaya\">Papaya</option><option value=\"WaterMelon\">WaterMelon</option><option value=\"Grapes\">Grapes</option><option value=\"Banana\">Banana</option></select><label for=\"price\">Price/kg:</label><input type=\"number\" id=\"price\" name=\"price\" required><label for=\"quantity\">Quantity (kgs):</label><input type=\"number\" id=\"quantity\" name=\"quantity\" required><button type=\"submit\">Submit</button></form>";
     html += "<form action=\"/setLimePrice\" method=\"GET\"><h2>Lime Price</h2><label for=\"limePrice\">Price:</label><input type=\"number\" id=\"limePrice\" name=\"limePrice\" required><button type=\"submit\">Submit</button></form>";
   //add the others option here
-    html += "<h2>Sales Graph</h2><canvas id=\"salesChart\"></canvas>";
-    html += "<script>let ctx=document.getElementById('salesChart').getContext('2d');";
-    // html += "let chart=new Chart(ctx,{type:'line',data:{labels:[5,6,7,8,9,10,11,12,1,2,3,4,5,6,7,8,9,10,11,12,1],datasets:[";   this works but let's try another below
-    html += "let chart=new Chart(ctx,{type:'line',data:{labels:['5am','6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm','9pm','10pm','11pm','12am','1am'],datasets:[";
-    html += "{label:'Mixed Fruit',data:[" + String(juiceSales[0]) + "],borderColor:'rgba(255, 0, 0, 1)',fill:false},";
-    html += "{label:'Pinapple',data:[" + String(juiceSales[1]) + "],borderColor:'rgba(0, 255, 0, 1)',fill:false},";
-    html += "{label:'Mosambi',data:[" + String(juiceSales[2]) + "],borderColor:'rgba(0, 0, 255, 1)',fill:false},";
-    html += "{label:'Mango',data:[" + String(juiceSales[3]) + "],borderColor:'rgba(255, 255, 0, 1)',fill:false},";
-    html += "{label:'Chikoo',data:[" + String(juiceSales[4]) + "],borderColor:'rgba(0, 255, 255, 1)',fill:false},";
-    html += "{label:'Papaya',data:[" + String(juiceSales[5]) + "],borderColor:'rgba(255, 0, 255, 1)',fill:false},";
-    html += "{label:'WaterMelon',data:[" + String(juiceSales[6]) + "],borderColor:'rgba(128, 128, 128, 1)',fill:false},";
-    html += "{label:'Grapes',data:[" + String(juiceSales[7]) + "],borderColor:'rgba(128, 0, 128, 1)',fill:false},";
-    html += "{label:'Banana',data:[" + String(juiceSales[8]) + "],borderColor:'rgba(0, 128, 128, 1)',fill:false},";
-    html += "{label:'Kharbooza',data:[" + String(juiceSales[9]) + "],borderColor:'rgba(255, 128, 0, 1)',fill:false},";
-    html += "{label:'Anar',data:[" + String(juiceSales[10]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Lime',data:[" + String(juiceSales[11]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'MixFruit Milkshake',data:[" + String(milkshakeSales[0]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Banana Lassi',data:[" + String(milkshakeSales[1]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Chocolate Milkshake',data:[" + String(milkshakeSales[2]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Strawberry Milkshake',data:[" + String(milkshakeSales[3]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'ButterScotch Milkshake',data:[" + String(milkshakeSales[4]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Anjeer Milkshake',data:[" + String(milkshakeSales[5]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Khajoor Milkshake',data:[" + String(milkshakeSales[6]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false},";
-    html += "{label:'Dry-Fruit Milkshake',data:[" + String(milkshakeSales[7]) + "],borderColor:'rgba(255, 128, 200, 1)',fill:false}]},";
-    html += "options:{scales:{x:{title:{display:true,text:'Time (Hours)'}},y:{title:{display:true,text:'Money (Rs 100)'}}}}});</script>";
+html += "<h2>Sales Graph</h2><canvas id=\"salesChart\"></canvas>";
+html += "<script>let ctx=document.getElementById('salesChart').getContext('2d');";
+html += "let chart=new Chart(ctx,{type:'line',data:{labels:['5am','6am','7am','8am','9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm','9pm','10pm','11pm','12am','1am'],datasets:[";
+html += "{label:'Mixed Fruit',data:[" + String(juiceSales[0]) + "],borderColor:'rgba(255, 99, 132, 1)',fill:false},";
+html += "{label:'Pinapple',data:[" + String(juiceSales[1]) + "],borderColor:'rgba(54, 162, 235, 1)',fill:false},";
+html += "{label:'Mosambi',data:[" + String(juiceSales[2]) + "],borderColor:'rgba(255, 206, 86, 1)',fill:false},";
+html += "{label:'Mango',data:[" + String(juiceSales[3]) + "],borderColor:'rgba(75, 192, 192, 1)',fill:false},";
+html += "{label:'Chikoo',data:[" + String(juiceSales[4]) + "],borderColor:'rgba(153, 102, 255, 1)',fill:false},";
+html += "{label:'Papaya',data:[" + String(juiceSales[5]) + "],borderColor:'rgba(255, 159, 64, 1)',fill:false},";
+html += "{label:'WaterMelon',data:[" + String(juiceSales[6]) + "],borderColor:'rgba(201, 203, 207, 1)',fill:false},";
+html += "{label:'Grapes',data:[" + String(juiceSales[7]) + "],borderColor:'rgba(102, 255, 51, 1)',fill:false},";
+html += "{label:'Banana',data:[" + String(juiceSales[8]) + "],borderColor:'rgba(255, 128, 0, 1)',fill:false},";
+html += "{label:'Kharbooza',data:[" + String(juiceSales[9]) + "],borderColor:'rgba(0, 204, 102, 1)',fill:false},";
+html += "{label:'Anar',data:[" + String(juiceSales[10]) + "],borderColor:'rgba(204, 0, 204, 1)',fill:false},";
+html += "{label:'Lime',data:[" + String(juiceSales[11]) + "],borderColor:'rgba(255, 102, 102, 1)',fill:false},";
+html += "{label:'MixFruit Milkshake',data:[" + String(milkshakeSales[0]) + "],borderColor:'rgba(153, 153, 255, 1)',fill:false},";
+html += "{label:'Banana Lassi',data:[" + String(milkshakeSales[1]) + "],borderColor:'rgba(255, 255, 102, 1)',fill:false},";
+html += "{label:'Chocolate Milkshake',data:[" + String(milkshakeSales[2]) + "],borderColor:'rgba(102, 51, 0, 1)',fill:false},";
+html += "{label:'Strawberry Milkshake',data:[" + String(milkshakeSales[3]) + "],borderColor:'rgba(255, 99, 132, 1)',fill:false},";
+html += "{label:'ButterScotch Milkshake',data:[" + String(milkshakeSales[4]) + "],borderColor:'rgba(255, 159, 64, 1)',fill:false},";
+html += "{label:'Anjeer Milkshake',data:[" + String(milkshakeSales[5]) + "],borderColor:'rgba(153, 102, 51, 1)',fill:false},";
+html += "{label:'Khajoor Milkshake',data:[" + String(milkshakeSales[6]) + "],borderColor:'rgba(102, 204, 255, 1)',fill:false},";
+html += "{label:'Dry-Fruit Milkshake',data:[" + String(milkshakeSales[7]) + "],borderColor:'rgba(255, 204, 102, 1)',fill:false}]},";
+html += "options:{layout:{padding:{top:10,bottom:10,left:10,right:10}},scales:{x:{title:{display:true,text:'Time (Hours)'}},y:{title:{display:true,text:'Money (Rs 100)'}}}}});</script>";
+
     html += "</body></html>";
     
     server.send(200, "text/html", html);
